@@ -7,6 +7,7 @@ const SearchButton = () => {
             <Button
             type="submit"
             mt={4}
+            mb={4}
             w={'90px'}
             bg={'blue.600'}
             color={'white'}

@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { GigState } from "./types/Gigs";
-import { GigAction, UserAction } from "./reducer";
+import { FriendListAction, GigAction, MyGigAction, UserAction } from "./reducer";
 import { UserState } from "./types/User";
+import { MyGigState } from "./types/MyGigs";
+import { FriendListState } from "./types/Friends";
 
 type GigStateProviderProps = {
     reducer: React.Reducer<GigState, GigAction>;
@@ -59,6 +61,74 @@ export const UserStateProvider = ({
 
 }
 
+type MyGigStateProviderProps = {
+  reducer: React.Reducer<MyGigState, MyGigAction>;
+  children: React.ReactElement;
+};
+
+const initialMyGigState: MyGigState = {
+  gigs: {
+  interested: [],
+  attending: []
+  }
+  
+};
+
+export const MyGigStateContext = createContext<[MyGigState, React.Dispatch<MyGigAction>]>([
+  initialMyGigState,
+  () => initialMyGigState
+]);
+
+export const MyGigStateProvider = ({
+  reducer,
+  children
+}: MyGigStateProviderProps) => {
+
+  const [state, dispatch] = useReducer(reducer, initialMyGigState);
+
+  return (
+    <MyGigStateContext.Provider value={[state, dispatch]}>
+      {children}
+    </MyGigStateContext.Provider>
+  );
+  
+};
+
+type FriendListStateProviderProps = {
+  reducer: React.Reducer<FriendListState, FriendListAction>;
+  children: React.ReactElement;
+};
+
+const initialFriendListState: FriendListState = {
+  friendsList: []
+};
+
+export const FriendListStateContext = createContext<[FriendListState, React.Dispatch<FriendListAction>]>([
+  initialFriendListState,
+  () => initialFriendListState
+]);
+
+export const FriendListStateProvider = ({
+  reducer,
+  children
+}: FriendListStateProviderProps) => {
+
+  const [state, dispatch] = useReducer(reducer, initialFriendListState);
+
+  return (
+    <FriendListStateContext.Provider value={[state, dispatch]}>
+      {children}
+    </FriendListStateContext.Provider>
+  );
+  
+};
+
+
+
+
+
 
 export const useGigStateValue = () => useContext(GigStateContext);
 export const useUserStateValue = () => useContext(UserStateContext);
+export const useMyGigStateValue = () => useContext(MyGigStateContext);
+export const useFriendListStateValue = () => useContext(FriendListStateContext);

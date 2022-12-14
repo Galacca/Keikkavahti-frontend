@@ -50,7 +50,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     label: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({label, size, ...props}) => {
+export const InputField: React.FC<InputFieldProps> = ({label, size, ...props}) => {
     const [field, meta] = useField(props)
     
     return (
@@ -103,6 +103,7 @@ const LoginForm = (props: LoginFormProps) => {
           }}}
         >
             {({ handleSubmit }) => (
+
             <form name='loginForm' onSubmit={handleSubmit}>
               <VStack spacing={8} align="flex-start" rounded={'full'}>
                     <InputField name='username' label='Username' />

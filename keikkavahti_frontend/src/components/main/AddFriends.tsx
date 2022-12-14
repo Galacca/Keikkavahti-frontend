@@ -1,5 +1,7 @@
-import { Center, Button, Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Input, Text, VStack } from "@chakra-ui/react"
-import React from "react";
+import { Center, Button, Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Text, VStack, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react"
+import { Field, Form, Formik, useField } from "formik";
+import React, { InputHTMLAttributes } from "react";
+import { addFriend } from "../../services/FriendServices";
 import { UserState } from "../../types/User";
 import { IsLoggedIn } from "../../utils/UserUtils"
 
@@ -14,6 +16,37 @@ interface AddFriendsProps  {
     onOpen: () => void
     user: UserState
     onClose: () => void
+}
+
+const initialValues = {
+    friendToAddName: ""
+}
+
+type AddFriendInputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+    name: string;
+    label: string;
+}
+
+const AddFriendInputField: React.FC<AddFriendInputFieldProps> = ({label, size, ...props}) => {
+    const [field, meta] = useField(props)
+    
+    return (
+        <FormControl  isInvalid={!!meta.error && meta.touched}>
+        <FormLabel htmlFor={field.name}>{label}</FormLabel>
+        <Center>
+        <VStack>
+        <Field
+            autoFocus={true}
+            w={'240px'}
+            as={Input}
+            name={field.name}
+            variant="filled"
+        />
+        <FormErrorMessage>{meta.error}</FormErrorMessage>
+        </VStack>
+        </Center>
+        </FormControl>
+    )
 }
 
 const AddFriendButton: React.FC<FriendButtonProps> = ({user, onOpen}) => {
@@ -37,6 +70,45 @@ const AddFriendButton: React.FC<FriendButtonProps> = ({user, onOpen}) => {
     )
 }
 
+type FriendFormProps = {
+    user: UserState
+}
+
+const FriendForm: React.FC<FriendFormProps> = ({user}) => {
+    return (
+        <>
+        <Formik
+            initialValues={initialValues}
+            onSubmit={async (values, {setErrors}) => {
+            const valuesAsJSON = JSON.stringify(values)
+            const addFriendResult = await addFriend(user, valuesAsJSON)
+
+            if (addFriendResult?.field) {
+                
+                const failedFriendAdd: Record<string, string> = {[addFriendResult.field] : addFriendResult.message}
+                setErrors(failedFriendAdd)
+
+            } 
+            
+        }}> 
+           
+            <Form>
+            
+                <AddFriendInputField width='240px' autoFocus={true} border-color={'gray.300'} margin-right={4} placeholder='Enter name...'
+                name='friendToAddName' label='Note that this is not the username, but the name they provided during sign up' />
+                <Center>
+                <Button mt={4} type='submit' colorScheme='blue'>Add</Button>
+                </Center>
+
+            </Form>
+        
+       </Formik>
+       </>
+       
+       
+    )
+}
+
 export const AddFriends: React.FC<AddFriendsProps> = ({user, isOpen, onOpen, onClose}) => {
    
     return (
@@ -45,19 +117,17 @@ export const AddFriends: React.FC<AddFriendsProps> = ({user, isOpen, onOpen, onC
         <AddFriendButton user={user} onOpen={onOpen} />
 
         <Drawer isOpen={isOpen} onClose={onClose} placement={'top'}>
-            <DrawerOverlay/>
+            <DrawerOverlay />
             <DrawerContent bg='teal.600'>
-                <DrawerCloseButton  />
-                <Box margin='15px'/>
+                <DrawerCloseButton />
+                <Box margin='15px' />
                 <DrawerHeader  textAlign='center'>Enter the name of the friend you want to add</DrawerHeader>
                     <DrawerBody bg='teal.800'>
-                        <Center>
+                        
                             <VStack>
-                                <Text>Note that this is not the username, but the name they provided during sign up</Text>
-                                <Input w='240px' autoFocus={true} borderColor={'gray.300'} mr={4} placeholder='Enter name...' />
-                                <Button colorScheme='blue'>Add</Button>
+                                    <FriendForm user={user} />
                             </VStack>
-                        </Center>
+                        
                     </DrawerBody>
 
             </DrawerContent>

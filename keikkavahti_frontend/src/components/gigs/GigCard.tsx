@@ -1,23 +1,45 @@
-import { Center, Text, Stack, List, ListItem, Button, Heading, Accordion, AccordionButton, AccordionItem, AccordionPanel, Link, } from '@chakra-ui/react';
+import { Center, Text, Stack, List, ListItem, Button, Heading, Accordion, AccordionButton, AccordionItem, AccordionPanel, Link, ButtonProps, } from '@chakra-ui/react';
+import { tagGig } from '../../services/GigServices';
 import Gig from '../../types/Gigs';
+import { UserState } from '../../types/User';
 import { isoDateToReadable } from '../../utils/DateUtils';
+import { IsLoggedIn } from '../../utils/UserUtils';
 import GigLowerBox from './GigLowerBox';
 import GigUpperBox from './GigUpperBox';
 import ShowLess from './ShowLess';
 import ShowMore from './ShowMore';
 
+interface GigButton extends ButtonProps {
 
-const GigCard: React.FC<Gig> = ({ link, date, time, venue, bands, addinfo}) => {
+    buttonText: string
+    id: string
+    operation: string
+    user: UserState
+
+}
+
+const GigActionButton: React.FC<GigButton> = ({buttonText, id, operation, user}) => {
+    return (
+    <Button
+        mt={6} w={'full'} bg={'teal.500'} color={'white'} rounded={'xl'}
+        boxShadow={'0 5px 20px 0px rgb(255 255 255 / 43%)'} _hover={{ bg: 'teal.600', }} _focus={{ bg: 'teal.600', }}
+        onClick={() => tagGig(id, operation, user)} isDisabled={!IsLoggedIn(user.user.name)}>
+        {buttonText}
+    </Button>
+    )
+}
+
+const GigCard: React.FC<Gig> = ({ link, date, time, venue, bands, addinfo, id, user}) => {
    
 return (
     <Accordion allowToggle>
-        <AccordionItem border='none'>
+        <AccordionItem border='none' w={'xs'} >
             {({ isExpanded }) => (
             <Center py={6}>
-                <GigUpperBox>
+                <GigUpperBox >
                     <Stack textAlign={'center'} p={4} align={'center'}>
 
-                        <Text fontSize={'md'} fontWeight={500} p={1} color={'aqua.700'} rounded={'full'}>
+                        <Text fontSize={'md'} fontWeight={500} p={1} rounded={'full'}>
                             {isoDateToReadable(date)}
                         </Text>
 
@@ -56,10 +78,8 @@ return (
                                 </ListItem>
                             </List>
 
-                            <Button mt={10} w={'full'} bg={'teal.500'} color={'white'} rounded={'xl'}
-                                    boxShadow={'0 5px 20px 0px rgb(255 255 255 / 43%)'} _hover={{ bg: 'teal.600', }} _focus={{ bg: 'teal.600', }}>
-                                Actions
-                            </Button>
+                            <GigActionButton buttonText='Im interested' id={id} operation='interested' user={user} />
+                            <GigActionButton buttonText='Im attending' id={id} operation='attending' user={user} />
 
                         </GigLowerBox>
                     </AccordionPanel>

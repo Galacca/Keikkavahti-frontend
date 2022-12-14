@@ -15,7 +15,6 @@ const { isOpen, onOpen, onClose } = useDisclosure()
               id='my-form'
               onSubmit={(e) => {
                 e.preventDefault()
-                console.log('submitted')
               }}
             >
               <Input name='nickname' placeholder='Type here...' />
