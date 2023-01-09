@@ -1,4 +1,5 @@
-import { Friend, FriendListState } from "./types/Friends";
+import { Action } from "@remix-run/router";
+import { Friend, FriendListState, FriendWithUnfilteredGigs } from "./types/Friends";
 import Gig, { GigState, SimplifiedGig } from "./types/Gigs";
 import { MyGigState } from "./types/MyGigs";
 import User, { UserState } from "./types/User"
@@ -18,10 +19,14 @@ export type MyGigAction = {
     payload: Array<SimplifiedGig>
 }
 
-export type FriendListAction = {
-    type: "SET_FRIENDS_LIST_WITHOUT_GIG_DATA"
+export type FriendListAction = | {
+    type: "SET_FRIENDS_LIST_WITHOUT_GIG_DATA",
     payload: Array<string>
+} | {
+    type: "SET_FRIENDS_GIG_DATA",
+    payload: FriendWithUnfilteredGigs
 }
+
 
 export const gigReducer = (state: GigState, action: GigAction): GigState => {
     switch (action.type) {
@@ -90,7 +95,28 @@ export const friendListReducer = (state: FriendListState, action: FriendListActi
                        }
                        return friendObject
                     })
-            };
+            }; case "SET_FRIENDS_GIG_DATA":
+            
+            console.log(action.payload)
+            const interested: Array<SimplifiedGig> = action.payload.friend.gigs.filter(a => a.status === 'interested')
+            const attending: Array<SimplifiedGig> = action.payload.friend.gigs.filter(a => a.status === 'attending');
+
+            const friendObject: Friend = {
+                friend: {
+                    name: action.payload.friend.name,
+                    gigs: {
+                        interested: interested,
+                        attending: attending
+                    }
+                }
+            }
+            
+            return {
+                ...state,
+                friendsList : [
+                 ...state.friendsList, ...[friendObject]
+                ]
+             }
             default:
                 return state;
     }

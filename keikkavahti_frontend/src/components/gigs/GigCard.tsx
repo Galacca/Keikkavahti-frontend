@@ -20,7 +20,7 @@ interface GigButton extends ButtonProps {
 
 const GigActionButton: React.FC<GigButton> = ({buttonText, id, operation, user}) => {
     return (
-    <Button
+    <Button 
         mt={6} w={'full'} bg={'teal.500'} color={'white'} rounded={'xl'}
         boxShadow={'0 5px 20px 0px rgb(255 255 255 / 43%)'} _hover={{ bg: 'teal.600', }} _focus={{ bg: 'teal.600', }}
         onClick={() => tagGig(id, operation, user)} isDisabled={!IsLoggedIn(user.user.name)}>

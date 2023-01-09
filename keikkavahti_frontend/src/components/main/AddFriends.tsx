@@ -5,7 +5,7 @@ import { addFriend } from "../../services/FriendServices";
 import { UserState } from "../../types/User";
 import { IsLoggedIn } from "../../utils/UserUtils"
 
-
+//Slight props drill here with a depth of 2...Still not sure if it's worth using context for...
 type FriendButtonProps = {
     user: UserState,
     onOpen: () => void

@@ -11,6 +11,7 @@ import { FriendView } from './views/FriendView'
 import { MyGigsView } from './views/MyGigsView'
 import { UserState } from './types/User'
 import { getFriendList } from './services/FriendServices'
+import { FriendWithUnfilteredGigs } from './types/Friends'
 
 type StoredToken = {
   id: string
@@ -23,7 +24,7 @@ function App() {
 
 const [user, userDispatch] = useUserStateValue();
 const [, myGigDispatch] = useMyGigStateValue();
-const [, FriendListDispatch] = useFriendListStateValue()
+const [friend, FriendListDispatch] = useFriendListStateValue()
 
 
 
@@ -44,24 +45,60 @@ if (loggedUserJSON) {
 
   }
   userDispatch({ type: "LOGGED_IN_USER", payload: userFromToken})
-  if (userFromToken) void fetchMyGigList(userObject);
+  if (userFromToken) {
+    void fetchMyGigList(userObject)
+    fetchMyFriendsList(userObject).then((result => {
+      fetchMyFriendsGigs(userObject, result)
+    }))
+  };
   
 }
   
 }, []);
 
-const fetchMyGigList = async (userFromToken: UserState) => {
+const fetchMyFriendsList = async (userFromToken: UserState) => {
 
-    try {
-    const result = await getFriendList(userFromToken);
-    FriendListDispatch({ type: "SET_FRIENDS_LIST_WITHOUT_GIG_DATA", payload: result });
+  try {
+    const result = await getFriendList(userFromToken)
+    
+    return result
+   
     } catch (error: any) {
     console.error(error);
     }
-  
-};
+}
 
-const fetchMyFriendsList = async (userFromToken: UserState) => {
+const fetchMyFriendsGigs = async (userFromToken: UserState, result: Array<string>) => {
+
+  try {
+    
+    result.map(async r => {
+
+      let friendsGigsResult = await getTaggedGigs(userFromToken, r)
+
+      //Make the backend return an empty array instead? Probably a better solution
+      if (friendsGigsResult === "User has no tagged gigs") friendsGigsResult = []
+
+      const friendObject: FriendWithUnfilteredGigs = {
+        friend: {
+          name: r,
+          gigs: friendsGigsResult
+        }
+      }
+      
+      //Stop multiple entries on refresh, we are gonna call a different dispatch for adding a new friend anyway
+      //Still feel like this isnt the best solution?
+     
+      if (friend.friendsList.length === 0) FriendListDispatch({ type: "SET_FRIENDS_GIG_DATA", payload: friendObject})
+    })
+       
+    } catch (error: any) {
+    console.error(error);
+    }
+
+}
+
+const fetchMyGigList = async (userFromToken: UserState) => {
 
   try {
   const result = await getTaggedGigs(userFromToken, null);
@@ -71,8 +108,6 @@ const fetchMyFriendsList = async (userFromToken: UserState) => {
   }
 
 };
-
-
 
 const [, gigDispatch] = useGigStateValue();
   React.useEffect(() => {
@@ -95,6 +130,7 @@ const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     
       <Box className="app" bg='gray.700' minH={'calc(100vh)'}>
+
         <NavBar />
         <Header HeaderBigText={'Keikkavahti'}></Header>
         <AddFriends user={user} isOpen={isOpen} onOpen={onOpen} onClose={onClose}></AddFriends>
@@ -102,7 +138,7 @@ const { isOpen, onOpen, onClose } = useDisclosure()
         
         <Center>
           <SimpleGrid columns={[1, 1, 3]} spacingX='120px' spacingY='30px'>
-          <FriendView />
+          <FriendView myFriends={friend} />
           <Show below='md'>
             <MyGigsView myGigs={myGigs} />
           </Show>
@@ -112,6 +148,7 @@ const { isOpen, onOpen, onClose } = useDisclosure()
           </Hide>
           </SimpleGrid>
         </Center>
+        
       </Box>
     
   )

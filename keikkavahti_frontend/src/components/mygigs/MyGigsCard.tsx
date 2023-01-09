@@ -2,7 +2,9 @@ import { VStack, Box, Text, Center } from "@chakra-ui/react"
 import Gig, { SimplifiedGig } from "../../types/Gigs"
 import { isoDateToReadable } from "../../utils/DateUtils"
 
-export const MyAttendingGigsCard: React.FC<SimplifiedGig> = ({date, venue, bands, id}) => {
+
+//Rename this to something more descriptive
+export const AttendingGigsCard: React.FC<SimplifiedGig> = ({date, venue, bands, id}) => {
     return (
         <>
                     <Text fontWeight={400}>{isoDateToReadable(date)}</Text>
@@ -12,7 +14,7 @@ export const MyAttendingGigsCard: React.FC<SimplifiedGig> = ({date, venue, bands
     )
 }
 
-export const MyInterestedGigsCard: React.FC<SimplifiedGig> = ({date, venue, bands, id}) => {
+export const InterestedGigsCard: React.FC<SimplifiedGig> = ({date, venue, bands, id}) => {
     return (
         <>
                     <Text fontWeight={400}>{isoDateToReadable(date)}</Text>

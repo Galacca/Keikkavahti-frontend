@@ -1,5 +1,5 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react"
-import { MyAttendingGigsCard, MyInterestedGigsCard } from "../components/mygigs/MyGigsCard"
+import { AttendingGigsCard, InterestedGigsCard } from "../components/myGigs/MyGigsCard"
 import { SimplifiedGig } from "../types/Gigs"
 import { MyGigState } from "../types/MyGigs"
 
@@ -24,7 +24,7 @@ export const MyGigsView: React.FC<MyGigsProps> = ({myGigs}) => {
             <Box h='min-content' mb={6} border={'1px'} textAlign={'center'} rounded={'xl'} w='90%' bgGradient='linear(to-r, yellow.500, yellow.700)'>
                 <Text borderBottom={'1px'} ml={3} mb={2} fontWeight={700}>Attending</Text>
                 
-                {Object.values(myGigs.gigs.attending).map((g: SimplifiedGig) => <MyAttendingGigsCard
+                {Object.values(myGigs.gigs.attending).map((g: SimplifiedGig) => <AttendingGigsCard
                         date={g.date}
                         venue={g.venue}
                         bands={g.bands}
@@ -39,7 +39,7 @@ export const MyGigsView: React.FC<MyGigsProps> = ({myGigs}) => {
             <Center>
             <Box border={'1px'} textAlign={'center'} rounded={'xl'} w='90%' h='min-content' bgGradient='linear(to-r, teal.500, teal.700)'>
                 <Text borderBottom={'1px'} fontWeight='700' mb={2} ml={3}>Interested</Text>
-                {Object.values(myGigs.gigs.interested).map((g: SimplifiedGig) => <MyInterestedGigsCard
+                {Object.values(myGigs.gigs.interested).map((g: SimplifiedGig) => <InterestedGigsCard
                         date={g.date}
                         venue={g.venue}
                         bands={g.bands}

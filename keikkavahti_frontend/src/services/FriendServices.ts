@@ -7,9 +7,8 @@ export const addFriend = async (user: UserState, friendName: string) => {
         url = "YEAH WE'RE NOT HERE YET"
     } 
     
-    const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token}, body: friendName});
-    const formattedResponse = await response.json()
-    return formattedResponse;
+    const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: friendName })).json()
+    return response
 
 }
 
@@ -20,9 +19,8 @@ export const getFriendList = async (user: UserState) => {
         url = "YEAH WE'RE NOT HERE YET"
     } 
     
-    const response = await fetch(url, {method: 'GET', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token}});
-    const formattedResponse = await response.json()
-    return formattedResponse;
+    const response = await (await fetch(url, {method: 'GET', headers: {'Authorization': 'Bearer ' + user.user.token}})).json();
+    return response
 
 }
 
@@ -33,8 +31,7 @@ export const getFriendsGigs = async (user: UserState, friendName: string) => {
         url = "YEAH WE'RE NOT HERE YET"
     } 
 
-    const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token}, body: friendName});
-    const formattedResponse = await response.json()
-    return formattedResponse;
+    const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: friendName })).json();
+    return response
 
 }

@@ -8,9 +8,8 @@ export async function getAllGigs() {
     } 
 
     try{
-        const response = await fetch(url, {method: 'GET'});
-        const formattedResponse = await response.json()
-        return formattedResponse;
+        const response = await (await fetch(url, {method: 'GET'})).json()
+        return response
     }catch(error) {
         console.log(url + " GET failed")
     }
@@ -26,12 +25,14 @@ export async function getGigsByMonth(monthAndYear: object) {
 
     try{
 
-        const response = await fetch(url, {headers: {
-            'Content-Type': 'application/json'},
-            body: JSON.stringify(monthAndYear), method: 'POST',});
-            
-        const formattedResponse = await response.json()
-        return formattedResponse;
+        const response = await (await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(monthAndYear), method: 'POST',
+        })).json()
+        
+        return response
 
     }catch(error) {
         console.log(url + " POST failed")
@@ -53,10 +54,8 @@ export async function tagGig(id: string, operation: string, user: UserState) {
 
     try{
 
-        const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token}, body: JSON.stringify(bodyObject)})
-            
-        const formattedResponse = await response.json()
-        return formattedResponse;
+        const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: JSON.stringify(bodyObject) })).json()
+        return response
 
     }catch(error) {
         console.log(url + " POST failed")
@@ -81,10 +80,8 @@ export async function getTaggedGigs(user: UserState, friend: string | null) {
     
     try{
 
-        const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token}, body: JSON.stringify(bodyObject)})
-            
-        const formattedResponse = await response.json()
-        return formattedResponse;
+        const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: JSON.stringify(bodyObject) })).json()
+        return response
 
     }catch(error) {
         console.log(url + " POST failed")

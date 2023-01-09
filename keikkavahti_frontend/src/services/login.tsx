@@ -5,8 +5,7 @@ export async function login(loginFormAsJson: string) {
         url = "YEAH WE'RE NOT HERE YET"
     } 
     
-    const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: loginFormAsJson});
-    const formattedResponse = await response.json()
-    return await formattedResponse;
+    const response = await (await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: loginFormAsJson})).json();
+    return response
    
 }

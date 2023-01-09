@@ -16,3 +16,11 @@ export type FriendListState = {
     friendsList: Array<Friend>
     
 }
+
+export type FriendWithUnfilteredGigs = {
+
+    friend: {
+        name: string
+        gigs: Array<SimplifiedGig>
+    }
+}
