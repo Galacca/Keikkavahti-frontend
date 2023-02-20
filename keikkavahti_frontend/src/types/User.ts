@@ -1,12 +1,11 @@
 export type UserState = {
-    //user: { [id: string]: User };
-    user: User
+  user: User;
 };
 
 type User = {
-    id: string,
-    name: string,
-    token: string
-}
+  id: string;
+  name: string;
+  token: string;
+};
 
-export default User
+export default User;

@@ -1,26 +1,22 @@
-import { SimplifiedGig } from "./Gigs"
+import { SimplifiedGig } from "./Gigs";
 
 export type Friend = {
-
-    friend : {
-        name: string
-        gigs: {
-            interested: Array<SimplifiedGig>
-            attending: Array<SimplifiedGig>
-        }
-    }
-}
+  friend: {
+    name: string;
+    gigs: {
+      interested: Array<SimplifiedGig>;
+      attending: Array<SimplifiedGig>;
+    };
+  };
+};
 
 export type FriendListState = {
-
-    friendsList: Array<Friend>
-    
-}
+  friendsList: Array<Friend>;
+};
 
 export type FriendWithUnfilteredGigs = {
-
-    friend: {
-        name: string
-        gigs: Array<SimplifiedGig>
-    }
-}
+  friend: {
+    name: string;
+    gigs: Array<SimplifiedGig>;
+  };
+};

@@ -1,65 +1,66 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { GigState } from "./types/Gigs";
-import { FriendListAction, GigAction, MyGigAction, UserAction } from "./reducer";
+import {
+  FriendListAction,
+  GigAction,
+  MyGigAction,
+  UserAction,
+} from "./reducer";
 import { UserState } from "./types/User";
 import { MyGigState } from "./types/MyGigs";
 import { FriendListState } from "./types/Friends";
 
 type GigStateProviderProps = {
-    reducer: React.Reducer<GigState, GigAction>;
-    children: React.ReactElement;
+  reducer: React.Reducer<GigState, GigAction>;
+  children: React.ReactElement;
 };
 
 const initialGigState: GigState = {
-    gigs: {}
+  gigs: {},
 };
 
-export const GigStateContext = createContext<[GigState, React.Dispatch<GigAction>]>([
-    initialGigState,
-    () => initialGigState
-]);
+export const GigStateContext = createContext<
+  [GigState, React.Dispatch<GigAction>]
+>([initialGigState, () => initialGigState]);
 
 export const GigStateProvider = ({
-    reducer,
-    children
-  }: GigStateProviderProps) => {
+  reducer,
+  children,
+}: GigStateProviderProps) => {
+  const [state, dispatch] = useReducer(reducer, initialGigState);
 
-    const [state, dispatch] = useReducer(reducer, initialGigState);
-
-    return (
-      <GigStateContext.Provider value={[state, dispatch]}>
-        {children}
-      </GigStateContext.Provider>
-    );
-    
+  return (
+    <GigStateContext.Provider value={[state, dispatch]}>
+      {children}
+    </GigStateContext.Provider>
+  );
 };
 
 type UserStateProviderProps = {
-  reducer: React.Reducer<UserState, UserAction>
+  reducer: React.Reducer<UserState, UserAction>;
   children: React.ReactElement;
-}
-
-const initialUserState: UserState = {
-  user: {id: "0", name: "", token: "" }
 };
 
-export const UserStateContext = createContext<[UserState, React.Dispatch<UserAction>]>([
-  initialUserState,
-  () => initialUserState
-])
+const initialUserState: UserState = {
+  user: { id: "0", name: "", token: "" },
+};
+
+export const UserStateContext = createContext<
+  [UserState, React.Dispatch<UserAction>]
+>([initialUserState, () => initialUserState]);
 
 export const UserStateProvider = ({
   reducer,
-  children
+  children,
 }: UserStateProviderProps) => {
+  const [state, dispatch] = useReducer(reducer, initialUserState);
 
-  const [state, dispatch] = useReducer(reducer, initialUserState)
-
-  return <UserStateContext.Provider value ={[state, dispatch]}>
+  return (
+    <UserStateContext.Provider value={[state, dispatch]}>
       {children}
     </UserStateContext.Provider>
-
-}
+  );
+};
 
 type MyGigStateProviderProps = {
   reducer: React.Reducer<MyGigState, MyGigAction>;
@@ -68,22 +69,19 @@ type MyGigStateProviderProps = {
 
 const initialMyGigState: MyGigState = {
   gigs: {
-  interested: [],
-  attending: []
-  }
-  
+    interested: [],
+    attending: [],
+  },
 };
 
-export const MyGigStateContext = createContext<[MyGigState, React.Dispatch<MyGigAction>]>([
-  initialMyGigState,
-  () => initialMyGigState
-]);
+export const MyGigStateContext = createContext<
+  [MyGigState, React.Dispatch<MyGigAction>]
+>([initialMyGigState, () => initialMyGigState]);
 
 export const MyGigStateProvider = ({
   reducer,
-  children
+  children,
 }: MyGigStateProviderProps) => {
-
   const [state, dispatch] = useReducer(reducer, initialMyGigState);
 
   return (
@@ -91,7 +89,6 @@ export const MyGigStateProvider = ({
       {children}
     </MyGigStateContext.Provider>
   );
-  
 };
 
 type FriendListStateProviderProps = {
@@ -100,19 +97,17 @@ type FriendListStateProviderProps = {
 };
 
 const initialFriendListState: FriendListState = {
-  friendsList: []
+  friendsList: [],
 };
 
-export const FriendListStateContext = createContext<[FriendListState, React.Dispatch<FriendListAction>]>([
-  initialFriendListState,
-  () => initialFriendListState
-]);
+export const FriendListStateContext = createContext<
+  [FriendListState, React.Dispatch<FriendListAction>]
+>([initialFriendListState, () => initialFriendListState]);
 
 export const FriendListStateProvider = ({
   reducer,
-  children
+  children,
 }: FriendListStateProviderProps) => {
-
   const [state, dispatch] = useReducer(reducer, initialFriendListState);
 
   return (
@@ -120,13 +115,7 @@ export const FriendListStateProvider = ({
       {children}
     </FriendListStateContext.Provider>
   );
-  
 };
-
-
-
-
-
 
 export const useGigStateValue = () => useContext(GigStateContext);
 export const useUserStateValue = () => useContext(UserStateContext);

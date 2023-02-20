@@ -1,91 +1,129 @@
 import { UserState } from "../types/User";
 
 export async function getAllGigs() {
-    let url: string = "http://localhost:8000/gigs/get/allgigs"
+  let url: string = "http://localhost:8000/gigs/get/allgigs";
 
-    if (import.meta.env.PROD) {
-        url = "YEAH WE'RE NOT HERE YET"
-    } 
+  if (import.meta.env.PROD) {
+    url = "YEAH WE'RE NOT HERE YET";
+  }
 
-    try{
-        const response = await (await fetch(url, {method: 'GET'})).json()
-        return response
-    }catch(error) {
-        console.log(url + " GET failed")
-    }
+  try {
+    const response = await (await fetch(url, { method: "GET" })).json();
+    return response;
+  } catch (error) {
+    console.log(url + " GET failed");
+  }
 }
 
 export async function getGigsByMonth(monthAndYear: object) {
+  let url: string = "http://localhost:8000/gigs/get/bymonth";
 
-    let url: string = "http://localhost:8000/gigs/get/bymonth"
+  if (import.meta.env.PROD) {
+    url = "YEAH WE'RE NOT HERE YET";
+  }
 
-    if (import.meta.env.PROD) {
-        url = "YEAH WE'RE NOT HERE YET"
-    } 
+  try {
+    const response = await (
+      await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(monthAndYear),
+        method: "POST",
+      })
+    ).json();
 
-    try{
-
-        const response = await (await fetch(url, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(monthAndYear), method: 'POST',
-        })).json()
-        
-        return response
-
-    }catch(error) {
-        console.log(url + " POST failed")
-    }
+    return response;
+  } catch (error) {
+    console.log(url + " POST failed");
+  }
 }
 
 export async function tagGig(id: string, operation: string, user: UserState) {
+  const bodyObject = {
+    gigToTagId: id,
+    operation: operation,
+  };
 
-    const bodyObject = {
-        gigToTagId: id,
-        operation: operation
-    }
+  let url: string = "http://localhost:8000/gigs/post/tagGig/";
 
-    let url: string = "http://localhost:8000/gigs/post/tagGig/"
+  if (import.meta.env.PROD) {
+    url = "YEAH WE'RE NOT HERE YET";
+  }
 
-    if (import.meta.env.PROD) {
-        url = "YEAH WE'RE NOT HERE YET"
-    } 
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.user.token,
+      },
+      body: JSON.stringify(bodyObject),
+    });
 
-    try{
+    //No need to JSON this. All we need is the status code. The state "mimics" the database changes
+    //const responseJSON = await response.json();
 
-        const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: JSON.stringify(bodyObject) })).json()
-        return response
-
-    }catch(error) {
-        console.log(url + " POST failed")
-    }
-
+    return response;
+  } catch (error) {
+    console.log(url + " POST failed");
+  }
 }
 
 export async function getTaggedGigs(user: UserState, friend: string | null) {
-    
-    let url: string = "http://localhost:8000/gigs/post/getTaggedGigs"
-    let requestedFrom: string | null = friend
+  let url: string = "http://localhost:8000/gigs/post/getTaggedGigs";
+  let requestedFrom: string | null = friend;
 
-    if (friend === null) requestedFrom = user.user.name
+  if (friend === null) requestedFrom = user.user.name;
 
-    if (import.meta.env.PROD) {
-        url = "YEAH WE'RE NOT HERE YET"
-    }
-    
-    const bodyObject = {
-        name: requestedFrom
-    }
-    
-    try{
+  if (import.meta.env.PROD) {
+    url = "YEAH WE'RE NOT HERE YET";
+  }
 
-        const response = await (await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.user.token }, body: JSON.stringify(bodyObject) })).json()
-        return response
+  const bodyObject = {
+    name: requestedFrom,
+  };
 
-    }catch(error) {
-        console.log(url + " POST failed")
-    }
-
+  try {
+    const response = await (
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + user.user.token,
+        },
+        body: JSON.stringify(bodyObject),
+      })
+    ).json();
+    return response;
+  } catch (error) {
+    console.log(url + " POST failed");
+  }
 }
 
+export const deleteTag = async (user: UserState, id: string) => {
+  const bodyObject = {
+    gigToDeleteId: id,
+  };
+
+  let url: string = "http://localhost:8000/gigs/delete/tagGig";
+
+  if (import.meta.env.PROD) {
+    url = "YEAH WE'RE NOT HERE YET";
+  }
+
+  try {
+    //Dont JSON the response as we only really need the status code and json strips it
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.user.token,
+      },
+      body: JSON.stringify(bodyObject),
+    });
+    return response;
+  } catch (error) {
+    console.log(url + " DELETE failed");
+  }
+};

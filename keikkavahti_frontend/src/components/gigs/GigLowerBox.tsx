@@ -1,8 +1,9 @@
 import { Box, BoxProps } from "@chakra-ui/react";
 
-const GigLowerBox: React.FC<BoxProps> = ({children}) => 
-<Box bg={'gray.400'} px={6} py={10} rounded={'md'} overflow={'hidden'} >
+const GigLowerBox: React.FC<BoxProps> = ({ children }) => (
+  <Box bg={"gray.400"} px={6} py={10} rounded={"md"} overflow={"hidden"}>
     {children}
-</Box>
+  </Box>
+);
 
-export default GigLowerBox
+export default GigLowerBox;
