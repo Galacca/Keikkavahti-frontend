@@ -1,4 +1,4 @@
-export async function loginApiCall(loginFormAsJson: string) {
+export const loginApiCall = async (loginFormAsJson: string) => {
   let url: string = "http://localhost:8000/users/post/login/";
 
   if (import.meta.env.PROD) {

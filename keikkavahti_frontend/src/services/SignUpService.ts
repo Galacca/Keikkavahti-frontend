@@ -1,4 +1,4 @@
-export async function signUpApiCall(signUpFormAsJson: string) {
+export const signUpApiCall = async (signUpFormAsJson: string) => {
   let url: string = "http://localhost:8000/users/post/signup/";
 
   if (import.meta.env.PROD) {

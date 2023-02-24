@@ -1,6 +1,6 @@
 import { UserState } from "../types/User";
 
-export async function getAllGigs() {
+export const getAllGigs = async () => {
   let url: string = "http://localhost:8000/gigs/get/allgigs";
 
   if (import.meta.env.PROD) {
@@ -15,7 +15,7 @@ export async function getAllGigs() {
   }
 }
 
-export async function getGigsByMonth(monthAndYear: object) {
+export const getGigsByMonth = async (monthAndYear: object) => {
   let url: string = "http://localhost:8000/gigs/get/bymonth";
 
   if (import.meta.env.PROD) {
@@ -39,7 +39,7 @@ export async function getGigsByMonth(monthAndYear: object) {
   }
 }
 
-export async function tagGig(id: string, operation: string, user: UserState) {
+export const tagGig = async (id: string, operation: string, user: UserState) => {
   const bodyObject = {
     gigToTagId: id,
     operation: operation,
@@ -70,7 +70,7 @@ export async function tagGig(id: string, operation: string, user: UserState) {
   }
 }
 
-export async function getTaggedGigs(user: UserState, friend: string | null) {
+export const getTaggedGigs = async (user: UserState, friend: string | null) => {
   let url: string = "http://localhost:8000/gigs/post/getTaggedGigs";
   let requestedFrom: string | null = friend;
 

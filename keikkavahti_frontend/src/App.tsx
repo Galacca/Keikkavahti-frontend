@@ -32,7 +32,7 @@ type StoredToken = {
   user: string;
 };
 
-function App() {
+const App = () => {
   const [user, userDispatch] = useUserStateValue();
   const [, myGigDispatch] = useMyGigStateValue();
   const [friend, FriendListDispatch] = useFriendListStateValue();
