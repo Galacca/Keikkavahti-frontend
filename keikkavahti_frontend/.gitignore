@@ -25,3 +25,5 @@ dist-ssr
 #Own additions
 public
 images
+*.png
+*.jpg
