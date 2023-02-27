@@ -99,27 +99,24 @@ export const myGigReducer = (
       const attending: Array<SimplifiedGig> = action.payload.filter(
         (a) => a.status === "attending"
       );
-
-      //Set these absolutely without regard for previous state since the backend responds with the full data no matter what action is taken
+      
       return {
         ...state,
         gigs: {
           ...state.gigs,
-          attending: {
-            ...attending,
-          },
-          interested: {
-            ...interested,
-          },
+          attending:
+            attending,
+          
+          interested:
+            interested,
         },
       };
     case "UNTAG_GIG":
-      const attendingArray = Object.values(state.gigs.attending);
-      const interestedArray = Object.values(state.gigs.interested);
-      const untagInterested: Array<SimplifiedGig> = interestedArray.filter(
+     
+      const untagInterested: Array<SimplifiedGig> = state.gigs.interested.filter(
         (g) => g.id !== action.payload
       );
-      const untagAttending: Array<SimplifiedGig> = attendingArray.filter(
+      const untagAttending: Array<SimplifiedGig> = state.gigs.attending.filter(
         (g) => g.id !== action.payload
       );
 
@@ -127,55 +124,47 @@ export const myGigReducer = (
         ...state,
         gigs: {
           ...state.gigs,
-          attending: {
-            ...untagAttending,
-          },
-          interested: {
-            ...untagInterested,
-          },
+          attending:
+            untagAttending,
+          
+          interested:
+            untagInterested,
+          
         },
       };
     case "EMPTY_MYGIGS_LIST":
       return {
         gigs: {
-          attending: {
-            ...[],
-          },
-          interested: {
-            ...[],
-          },
+          attending:
+            [],
+          interested:
+            [],
         },
       };
     case "TAG_ATTENDING":
-      const tagAttendingAttendingArray = Object.values(state.gigs.attending);
       const tagAttendingUntagFromInterested: Array<SimplifiedGig> =
-        tagAttendingAttendingArray.filter((g) => g.id !== action.payload.id);
+        state.gigs.interested.filter((g) => g.id !== action.payload.id);
 
       return {
         gigs: {
-          attending: {
-            ...state.gigs.attending,
-            ...[action.payload],
-          },
-          interested: {
-            ...tagAttendingUntagFromInterested,
-          },
+          attending:
+           state.gigs.attending.concat(action.payload),
+
+          interested:
+            tagAttendingUntagFromInterested,
+          
         },
       };
     case "TAG_INTERESTED":
-      const tagInterestedAttendingArray = Object.values(state.gigs.attending);
       const tagInterestedUntagFromAttending: Array<SimplifiedGig> =
-        tagInterestedAttendingArray.filter((g) => g.id !== action.payload.id);
+        state.gigs.attending.filter((g) => g.id !== action.payload.id);
 
       return {
         gigs: {
-          attending: {
-            ...tagInterestedUntagFromAttending,
-          },
-          interested: {
-            ...state.gigs.interested,
-            ...[action.payload],
-          },
+          attending:
+            tagInterestedUntagFromAttending,
+          interested: 
+            state.gigs.interested.concat(action.payload),
         },
       };
   }
