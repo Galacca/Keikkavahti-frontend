@@ -4,7 +4,7 @@ export const getAllGigs = async () => {
   let url: string = "http://localhost:8000/gigs/get/allgigs";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/get/allgigs/";
   }
 
   try {
@@ -19,7 +19,7 @@ export const getGigsByMonth = async (monthAndYear: object) => {
   let url: string = "http://localhost:8000/gigs/get/bymonth";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/get/bymonth";
   }
 
   try {
@@ -48,7 +48,7 @@ export const tagGig = async (id: string, operation: string, user: UserState) => 
   let url: string = "http://localhost:8000/gigs/post/tagGig/";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/tagGig/";
   }
 
   try {
@@ -77,7 +77,7 @@ export const getTaggedGigs = async (user: UserState, friend: string | null) => {
   if (friend === null) requestedFrom = user.user.name;
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/getTaggedGigs";
   }
 
   const bodyObject = {
@@ -109,7 +109,7 @@ export const deleteTag = async (user: UserState, id: string) => {
   let url: string = "http://localhost:8000/gigs/delete/tagGig";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/delete/tagGig";
   }
 
   try {

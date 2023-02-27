@@ -1,8 +1,8 @@
 export const signUpApiCall = async (signUpFormAsJson: string) => {
-  let url: string = "http://localhost:8000/users/post/signup/";
+  let url: string = "http://localhost:8000/users/post/signup";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/users/post/signup";
   }
 
   const response = await (

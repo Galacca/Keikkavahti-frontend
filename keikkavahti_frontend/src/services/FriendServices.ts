@@ -4,7 +4,7 @@ export const addFriend = async (user: UserState, friendName: string) => {
   let url: string = "http://localhost:8000/users/post/addfriend/";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/users/post/addfriend/";
   }
 
   const response = await (
@@ -24,7 +24,7 @@ export const getFriendList = async (user: UserState) => {
   let url: string = "http://localhost:8000/friends/get/friendslist/";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/friends/get/friendslist/";
   }
 
   const response = await (
@@ -40,7 +40,7 @@ export const getFriendsGigs = async (user: UserState, friendName: string) => {
   let url: string = "http://localhost:8000/gigs/post/getTaggedGigs/";
 
   if (import.meta.env.PROD) {
-    url = "YEAH WE'RE NOT HERE YET";
+    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/getTaggedGigs/";
   }
 
   const response = await (
