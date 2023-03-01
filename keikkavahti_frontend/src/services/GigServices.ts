@@ -1,11 +1,8 @@
 import { UserState } from "../types/User";
+import { devOrProd } from "../utils/UrlUtils";
 
 export const getAllGigs = async () => {
-  let url: string = "http://localhost:8000/gigs/get/allgigs";
-
-  if (import.meta.env.PROD) {
-    url = "https://backend.henkirikos.com/gigs/get/allgigs";
-  }
+  const url: string = devOrProd() + "/gigs/get/allgigs";
 
   try {
     const response = await (await fetch(url, { method: "GET" })).json();
@@ -13,14 +10,10 @@ export const getAllGigs = async () => {
   } catch (error) {
     console.log(url + " GET failed");
   }
-}
+};
 
 export const getGigsByMonth = async (monthAndYear: object) => {
-  let url: string = "http://localhost:8000/gigs/get/bymonth";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/get/bymonth";
-  }
+  const url: string = devOrProd() + "/gigs/get/bymonth";
 
   try {
     const response = await (
@@ -37,19 +30,19 @@ export const getGigsByMonth = async (monthAndYear: object) => {
   } catch (error) {
     console.log(url + " POST failed");
   }
-}
+};
 
-export const tagGig = async (id: string, operation: string, user: UserState) => {
+export const tagGig = async (
+  id: string,
+  operation: string,
+  user: UserState
+) => {
   const bodyObject = {
     gigToTagId: id,
     operation: operation,
   };
 
-  let url: string = "http://localhost:8000/gigs/post/tagGig/";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/tagGig/";
-  }
+  const url: string = devOrProd() + "/gigs/post/tagGig/";
 
   try {
     const response = await fetch(url, {
@@ -68,17 +61,13 @@ export const tagGig = async (id: string, operation: string, user: UserState) => 
   } catch (error) {
     console.log(url + " POST failed");
   }
-}
+};
 
 export const getTaggedGigs = async (user: UserState, friend: string | null) => {
-  let url: string = "http://localhost:8000/gigs/post/getTaggedGigs";
+  const url: string = devOrProd() + "/gigs/post/getTaggedGigs";
   let requestedFrom: string | null = friend;
 
   if (friend === null) requestedFrom = user.user.name;
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/getTaggedGigs";
-  }
 
   const bodyObject = {
     name: requestedFrom,
@@ -99,18 +88,14 @@ export const getTaggedGigs = async (user: UserState, friend: string | null) => {
   } catch (error) {
     console.log(url + " POST failed");
   }
-}
+};
 
 export const deleteTag = async (user: UserState, id: string) => {
   const bodyObject = {
     gigToDeleteId: id,
   };
 
-  let url: string = "http://localhost:8000/gigs/delete/tagGig";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/delete/tagGig";
-  }
+  const url: string = devOrProd() + "/gigs/delete/tagGig";
 
   try {
     //Dont JSON the response as we only really need the status code and json strips it

@@ -1,9 +1,7 @@
-export const loginApiCall = async (loginFormAsJson: string) => {
-  let url: string = "http://localhost:8000/users/post/login";
+import { devOrProd } from "../utils/UrlUtils";
 
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/users/post/login";
-  }
+export const loginApiCall = async (loginFormAsJson: string) => {
+  const url: string = devOrProd() + "/users/post/login";
 
   const response = await (
     await fetch(url, {
@@ -13,4 +11,4 @@ export const loginApiCall = async (loginFormAsJson: string) => {
     })
   ).json();
   return response;
-}
+};

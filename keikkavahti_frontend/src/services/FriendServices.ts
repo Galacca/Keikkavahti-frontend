@@ -1,11 +1,8 @@
 import { UserState } from "../types/User";
+import { devOrProd } from "../utils/UrlUtils";
 
 export const addFriend = async (user: UserState, friendName: string) => {
-  let url: string = "http://localhost:8000/users/post/addfriend/";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/users/post/addfriend/";
-  }
+  const url: string = devOrProd() + "/users/post/addfriend/";
 
   const response = await (
     await fetch(url, {
@@ -21,11 +18,7 @@ export const addFriend = async (user: UserState, friendName: string) => {
 };
 
 export const getFriendList = async (user: UserState) => {
-  let url: string = "http://localhost:8000/friends/get/friendslist/";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/friends/get/friendslist/";
-  }
+  const url: string = devOrProd() + "/friends/get/friendslist/";
 
   const response = await (
     await fetch(url, {
@@ -37,11 +30,7 @@ export const getFriendList = async (user: UserState) => {
 };
 
 export const getFriendsGigs = async (user: UserState, friendName: string) => {
-  let url: string = "http://localhost:8000/gigs/post/getTaggedGigs/";
-
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/gigs/post/getTaggedGigs/";
-  }
+  const url: string = devOrProd() + "/gigs/post/getTaggedGigs/";
 
   const response = await (
     await fetch(url, {

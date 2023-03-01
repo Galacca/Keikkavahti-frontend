@@ -1,9 +1,7 @@
-export const signUpApiCall = async (signUpFormAsJson: string) => {
-  let url: string = "http://localhost:8000/users/post/signup";
+import { devOrProd } from "../utils/UrlUtils";
 
-  if (import.meta.env.PROD) {
-    url = "https://keikkavahtibackend-env.eba-gbx8gbvm.eu-north-1.elasticbeanstalk.com/users/post/signup";
-  }
+export const signUpApiCall = async (signUpFormAsJson: string) => {
+  const url: string = devOrProd() + "/users/post/signup";
 
   const response = await (
     await fetch(url, {
@@ -13,4 +11,4 @@ export const signUpApiCall = async (signUpFormAsJson: string) => {
     })
   ).json();
   return response;
-}
+};
