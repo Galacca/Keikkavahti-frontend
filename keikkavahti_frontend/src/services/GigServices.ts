@@ -4,7 +4,7 @@ export const getAllGigs = async () => {
   let url: string = "http://localhost:8000/gigs/get/allgigs";
 
   if (import.meta.env.PROD) {
-    url = "http://keikkavahti-basicbalancer-242462467.eu-north-1.elb.amazonaws.com/gigs/get/allgigs/";
+    url = "https://KeikkavahtiLoadBalancer-1114651836.eu-north-1.elb.amazonaws.com/gigs/get/allgigs/";
   }
 
   try {
