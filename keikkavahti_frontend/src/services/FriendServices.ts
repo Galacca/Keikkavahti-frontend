@@ -28,19 +28,3 @@ export const getFriendList = async (user: UserState) => {
   ).json();
   return response;
 };
-
-export const getFriendsGigs = async (user: UserState, friendName: string) => {
-  const url: string = devOrProd() + "/gigs/post/getTaggedGigs/";
-
-  const response = await (
-    await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.user.token,
-      },
-      body: friendName,
-    })
-  ).json();
-  return response;
-};

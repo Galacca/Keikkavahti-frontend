@@ -16,8 +16,11 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik, useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
+import { FriendListAction } from "../../reducer";
 import { addFriend } from "../../services/FriendServices";
+import { getTaggedGigs } from "../../services/GigServices";
 import { UserState } from "../../types/User";
+import { generateFriendObject } from "../../utils/FriendUtils";
 import { IsLoggedIn } from "../../utils/UserUtils";
 
 //Slight props drill here with a depth of 2...Still not sure if it's worth using context for...
@@ -31,6 +34,7 @@ interface AddFriendsProps {
   onOpen: () => void;
   user: UserState;
   onClose: () => void;
+  friendListDispatch: React.Dispatch<FriendListAction>;
 }
 
 const initialValues = {
@@ -90,9 +94,15 @@ const AddFriendButton: React.FC<FriendButtonProps> = ({ user, onOpen }) => {
 
 type FriendFormProps = {
   user: UserState;
+  friendListDispatch: React.Dispatch<FriendListAction>;
+  onClose: () => void;
 };
 
-const FriendForm: React.FC<FriendFormProps> = ({ user }) => {
+const FriendForm: React.FC<FriendFormProps> = ({
+  user,
+  friendListDispatch,
+  onClose,
+}) => {
   return (
     <>
       <Formik
@@ -106,6 +116,27 @@ const FriendForm: React.FC<FriendFormProps> = ({ user }) => {
               [addFriendResult.field]: addFriendResult.message,
             };
             setErrors(failedFriendAdd);
+          } else {
+            let addedFriendsGigs = await getTaggedGigs(
+              user,
+              values.friendToAddName
+            );
+
+            if (addedFriendsGigs === "User has no tagged gigs")
+              addedFriendsGigs = [];
+
+            const friendObject = generateFriendObject(
+              values.friendToAddName,
+              addedFriendsGigs
+            );
+
+            //Lacking any sort of user feedback if the operation was a success.
+            friendListDispatch({
+              type: "SET_FRIENDS_GIG_DATA",
+              payload: friendObject,
+            });
+
+            onClose();
           }
         }}
       >
@@ -135,6 +166,7 @@ export const AddFriends: React.FC<AddFriendsProps> = ({
   isOpen,
   onOpen,
   onClose,
+  friendListDispatch,
 }) => {
   return (
     <>
@@ -150,7 +182,11 @@ export const AddFriends: React.FC<AddFriendsProps> = ({
           </DrawerHeader>
           <DrawerBody bg="teal.800">
             <VStack>
-              <FriendForm user={user} />
+              <FriendForm
+                user={user}
+                friendListDispatch={friendListDispatch}
+                onClose={onClose}
+              />
             </VStack>
           </DrawerBody>
         </DrawerContent>

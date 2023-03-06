@@ -23,7 +23,7 @@ import { FriendView } from "./views/FriendView";
 import { MyGigsView } from "./views/MyGigsView";
 import { UserState } from "./types/User";
 import { getFriendList } from "./services/FriendServices";
-import { FriendWithUnfilteredGigs } from "./types/Friends";
+import { generateFriendObject } from "./utils/FriendUtils";
 
 type StoredToken = {
   id: string;
@@ -35,7 +35,7 @@ type StoredToken = {
 const App = () => {
   const [user, userDispatch] = useUserStateValue();
   const [, myGigDispatch] = useMyGigStateValue();
-  const [friend, FriendListDispatch] = useFriendListStateValue();
+  const [friend, friendListDispatch] = useFriendListStateValue();
 
   React.useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedInUser");
@@ -83,17 +83,13 @@ const App = () => {
         if (friendsGigsResult === "User has no tagged gigs")
           friendsGigsResult = [];
 
-        const friendObject: FriendWithUnfilteredGigs = {
-          friend: {
-            name: r,
-            gigs: friendsGigsResult,
-          },
-        };
+        const friendObject = generateFriendObject(r, friendsGigsResult);
+       
 
         //Stop multiple entries on refresh, we are gonna call a different dispatch for adding a new friend anyway
 
         if (friend.friendsList.length === 0)
-          FriendListDispatch({
+          friendListDispatch({
             type: "SET_FRIENDS_GIG_DATA",
             payload: friendObject,
           });
@@ -140,6 +136,7 @@ const App = () => {
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
+        friendListDispatch={friendListDispatch}
       ></AddFriends>
       <SearchGigsForm />
 
@@ -157,6 +154,6 @@ const App = () => {
       </Center>
     </Box>
   );
-}
+};
 
 export default App;
