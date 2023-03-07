@@ -27,21 +27,18 @@ So I thought maybe this app might help with that not happening in the future.
 
 ## What technologies did I use?
 
-React
-TypeScript
-Vite
-Chakra-UI
-Formik
-React-Router
-Zod
-AWS
+React, TypeScript, Vite, Chakra-UI, Formik, React-Router, Zod, AWS
 
 ## What were my design principles?
 
 1. Minimal amount of requests send to the backend. Rather "mimic" the database changes as state than request an update when something changes.
+
 2. Lazyload some of the heavier parts that might not get used. Currently used only for the cards that hold the gigs.
+
 3. Make an easy to use UI that makes sense and is responsive despite my inexperience with creating ... well any UI's at all.
+
 4. Responsive at all screen sizes. Chakra-UI made this very easy.
+
 5. Comment any part of the code that might make someone else think to themselves "Why is this step necessary?"
 
 ## Did you make the backend aswell?
