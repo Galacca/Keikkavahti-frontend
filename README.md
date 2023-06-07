@@ -27,7 +27,7 @@ So I thought maybe this app might help with that not happening in the future.
 
 ## What technologies did I use?
 
-React, TypeScript, Vite, Chakra-UI, Formik, React-Router, Zod, AWS
+React, TypeScript, Vite, Chakra-UI, Formik, React-Router, Zod, AWS, JsonWebToken
 
 ## What were my design principles?
 
@@ -52,3 +52,5 @@ https://github.com/Galacca/Keikkavahti-Backend
 Yes...ish? Functionally the app wont change from here. There are no bugs that I know of.
 There are however a few backend responses that I really should type properly. A few cases of inproper camelcasing. Maybe lazyloading the "add friend" modal.
 
+I also thought about an idea of having the colors of the gigs in the card change depending on the status of the gig. At least to have 'sold out' gigs to appear
+grayed out.

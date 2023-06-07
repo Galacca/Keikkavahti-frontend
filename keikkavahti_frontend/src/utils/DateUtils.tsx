@@ -1,4 +1,4 @@
-export const isoDateToReadable = (date: string) => {
+export const isoDateToReadable = (date: string): string => {
   return new Date(date)
     .toISOString()
     .replace(/T.*/, "")
@@ -36,12 +36,12 @@ export const getYears = () => {
   );
 };
 
-export const getCurrentMonthNumeric = () => {
+export const getCurrentMonthNumeric = (): string => {
   const month = new Date().toLocaleString("fi-FI", { month: "numeric" });
   return month;
 };
 
-export const getCurrentYear = (add: number) => {
+export const getCurrentYear = (add: number): number => {
   const d = new Date();
   const year = d.getFullYear() + add;
   return year;
