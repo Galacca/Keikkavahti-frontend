@@ -212,12 +212,14 @@ export const friendListReducer = (
         ...state,
         friendsList: [...state.friendsList, ...[friendObject]],
       };
-    default:
-      return state;
 
-    case "EMPTY_FRIENDS_LIST":
+      case "EMPTY_FRIENDS_LIST":
       return {
         friendsList: [],
       };
+
+    default:
+      return state;
+    
   }
 };
