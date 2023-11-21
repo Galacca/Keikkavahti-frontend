@@ -6,7 +6,7 @@ import MonthSelector from "../main/MonthSelector";
 import SearchButton from "../main/SearchButton";
 import YearSelector from "../main/YearSelector";
 
-//The number gets json.stringified later anyway
+//The number gets json.stringified later
 type GigFormValues = {
   month: string;
   year: number;

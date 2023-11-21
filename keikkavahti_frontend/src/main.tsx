@@ -17,9 +17,10 @@ import {
   myGigReducer,
   userReducer,
 } from "./reducer";
+import React from "react";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  // <React.StrictMode>
+  <React.StrictMode>
   <GigStateProvider reducer={gigReducer}>
     <UserStateProvider reducer={userReducer}>
       <MyGigStateProvider reducer={myGigReducer}>
@@ -37,5 +38,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       </MyGigStateProvider>
     </UserStateProvider>
   </GigStateProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );

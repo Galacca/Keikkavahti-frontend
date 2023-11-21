@@ -1,9 +1,8 @@
 import { BoxProps, Box, Flex, FlexProps } from "@chakra-ui/react";
 
-//Koko roska on wrapatty tähän. Sivusto oli muistaakseeni hieman responsiivisempi tällä border asetuksella
+
 export const Wrapper: React.FC<BoxProps> = ({ children, ...props }) => {
   return (
-    //mx = shorthand border left & right. 6 = 1.5rem, 24px
     <Box mx="6" {...props}>
       {children}
     </Box>
