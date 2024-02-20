@@ -7,6 +7,7 @@ import Gig, { GigState, SimplifiedGig } from "./types/Gigs";
 import { MyGigState } from "./types/MyGigs";
 import User, { UserState } from "./types/User";
 
+
 export type GigAction = {
   type: "SET_GIG_LIST";
   payload: Gig[];
@@ -198,6 +199,7 @@ export const friendListReducer = (
         (a) => a.status === "attending"
       );
 
+      
       const friendObject: Friend = {
         friend: {
           name: action.payload.friend.name,
@@ -207,6 +209,8 @@ export const friendListReducer = (
           },
         },
       };
+
+      console.log(friendObject)
 
       return {
         ...state,
